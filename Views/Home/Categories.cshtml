@@ -1,0 +1,28 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model Wrapper
+<div class="container">
+    <div class="row">
+        <div class="col-sm text-center">
+            <h3>New Category</h3>
+            <form asp-action="NewCategory" asp-controller="Home" method="POST">
+                <span class="text-danger" asp-validation-for="NewCategory.Name"></span>
+                <div class="form-group d-flex justify-content-between">
+                    <label asp-for="NewCategory.Name">Name: </label>
+                    <input asp-for="NewCategory.Name">
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+            </form>
+        </div>
+        <div class="col-sm text-center">
+            <h3>Existing Products</h3>
+            <ul>
+                @foreach(Category category in Model.AllCategories)
+                {
+                    <p><a href="/categories/@category.CategoryId">@category.Name</a></p>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

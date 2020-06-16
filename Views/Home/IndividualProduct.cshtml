@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "Home Page";
+}
+@model Wrapper
+<div class="container text-center">
+    <h1>@Model.NewProduct.Name</h1>
+    <div class="row">
+        <div class="col-sm text-center">
+            <h3>Categories:</h3>
+            <ul>
+                @foreach(var category in Model.NewProduct.Associations)
+                {
+                    <li>@category.ThisCategory.Name</li>
+                }
+            </ul>
+        </div>
+        <div class="col-sm text-center">
+            <p>Add Category:</p>
+            <form asp-action="AddCategory" asp-controller="Home" method="POST">
+                <select asp-for="NewCategory.CategoryId">
+                    @foreach(Category category in Model.AllCategories)
+                    {
+                        bool IsThere=false;
+                        @foreach(var ProductCategory in Model.NewProduct.Associations)
+                        {
+                            if(ProductCategory.CategoryId == category.CategoryId)
+                            {
+                                IsThere=true;
+                            }
+                        }
+                        @if(IsThere==false)
+                        {
+                            <option value="@category.CategoryId">@category.Name</option>
+                        }
+                    }
+                </select>
+                <input type="hidden" asp-for="NewProduct.ProductId" value="@Model.NewProduct.ProductId">
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Add Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
